@@ -1,0 +1,33 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<h2>Welcome, @Model.Username!</h2>
+
+<p>Here you can manage your reservations:</p>
+
+<!-- Lista rezerwacji użytkownika (przykład) -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Reservation Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* @foreach (var reservation in Model.Reservations) *@
+        @* { *@
+        @*     <tr> *@
+        @*         <td>@reservation.Id</td> *@
+        @*         <td>@reservation.Date</td> *@
+        @*         <td> *@
+        @*             <a href="@Url.Action("Edit", "Reservation", new { id = reservation.Id })">Edit</a> | *@
+        @*             <a href="@Url.Action("Delete", "Reservation", new { id = reservation.Id })">Delete</a> *@
+        @*         </td> *@
+        @*     </tr> *@
+        @* } *@
+    </tbody>
+</table>
