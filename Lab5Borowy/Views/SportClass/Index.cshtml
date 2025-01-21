@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SportClass>
+
+<h2>Available Classes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Duration</th>
+            <th>Available Slots</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sportClass in Model)
+        {
+            <tr>
+                <td>@sportClass.Name</td>
+                <td>@sportClass.Date.ToShortDateString()</td>
+                <td>@sportClass.StartTime</td>
+                <td>@sportClass.Duration</td>
+                <td>@(sportClass.Capacity - sportClass.Reserved)</td>
+                <td>
+                    @if (sportClass.Reserved < sportClass.Capacity)
+                    {
+                        <form asp-action="Reserve" method="post">
+                            <input type="hidden" name="id" value="@sportClass.Id" />
+                            <button type="submit" class="btn btn-primary">Reserve</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Full</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

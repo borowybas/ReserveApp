@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Lab5Borowy.Models;
+//using ReserveApp.Models;
 
 namespace Lab5Borowy.Data
 {
@@ -17,5 +18,21 @@ namespace Lab5Borowy.Data
         public DbSet<Lab5Borowy.Models.Book> Book { get; set; } = default!;
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<SportClass> SportClasses { get; set; } = default!;
+
+        public DbSet<Reservation> Reservations { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<SportClass>().Ignore(e => e.ClasstFull);
+
+            // Ignorowanie zdarzenia ClasstFull i delegata ValidateReservation
+            //modelBuilder.Entity<SportClass>().Ignore(e => e.ClasstFull);
+            modelBuilder.Entity<SportClass>().Ignore(e => e.ValidateReservation);
+
+        }
     }
 }
