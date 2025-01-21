@@ -125,6 +125,7 @@ namespace Lab5Borowy.Controllers
                 {
                     r.Id,
                     r.SportClassId,
+                    r.ReservationDate,
                     SportClassName = _dbContext.SportClasses
                         .Where(sc => sc.Id == r.SportClassId)
                         .Select(sc => sc.Name)
@@ -132,6 +133,22 @@ namespace Lab5Borowy.Controllers
                     SportClassDate = _dbContext.SportClasses
                         .Where(sc => sc.Id == r.SportClassId)
                         .Select(sc => sc.Date)
+                        .FirstOrDefault(),
+                    SportClassStartTime = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.StartTime)
+                        .FirstOrDefault(),
+                    SportClassDuration = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Duration)
+                        .FirstOrDefault(),
+                    SportClassCapacity = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Capacity)
+                        .FirstOrDefault(),
+                    SportClassReserved = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Reserved)
                         .FirstOrDefault()
                 })
                 .ToList();
@@ -142,8 +159,13 @@ namespace Lab5Borowy.Controllers
                 {
                     Id = r.Id,
                     SportClassId = r.SportClassId,
+                    ReservationDate = r.ReservationDate,
                     SportClassName = r.SportClassName,
-                    SportClassDate = r.SportClassDate
+                    SportClassDate = r.SportClassDate,
+                    SportClassStartTime = r.SportClassStartTime,
+                    SportClassDuration = r.SportClassDuration,
+                    SportClassCapacity = r.SportClassCapacity,
+                    SportClassReserved = r.SportClassReserved
                 }).ToList()
             };
 

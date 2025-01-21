@@ -64,8 +64,10 @@ else
                 <td>@reservation.SportClassDate.ToShortDateString()</td>
                 <td>@reservation.SportClassId</td>
                 <td>
-                    <a href="@Url.Action("Edit", "Reservation", new { id = reservation.Id })">Edit</a> |
-                    <a href="@Url.Action("Delete", "Reservation", new { id = reservation.Id })">Delete</a>
+                    @* <a href="@Url.Action("Details", "Reservations", Model.Reservations)">Details</a> *@
+                    @* <a asp-action="Details" asp-controller="Reservations" asp-route-id="@reservation.Id" class="btn btn-info">Details</a> *@
+                    <a href="@Url.Action("Details", "Reservations", new { id = reservation.Id })">Details</a> |
+                    <a href="@Url.Action("Cancel", "Reservations", new { id = reservation.Id })">Cancel</a> 
                 </td>
             </tr>
         }

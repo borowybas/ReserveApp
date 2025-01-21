@@ -50,23 +50,23 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-app.Use(async (context, next) =>
-{
-    var path = context.Request.Path;
+//app.Use(async (context, next) =>
+//{
+//    var path = context.Request.Path;
 
-    // Jeœli œcie¿ka prowadzi do admina, sprawdŸ rolê
-    if (path.StartsWithSegments("/Admin"))
-    {
-        var userRole = context.Session.GetString("UserRole");
-        if (userRole != "Admin")
-        {
-            context.Response.Redirect("/Account/Login");
-            return;
-        }
-    }
+//    // Jeœli œcie¿ka prowadzi do admina, sprawdŸ rolê
+//    if (path.StartsWithSegments("/Admin"))
+//    {
+//        var userRole = context.Session.GetString("UserRole");
+//        if (userRole != "Admin")
+//        {
+//            context.Response.Redirect("/Account/Login");
+//            return;
+//        }
+//    }
 
-    await next();
-});
+//    await next();
+//});
 
 
 

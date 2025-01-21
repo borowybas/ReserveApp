@@ -1,0 +1,20 @@
+﻿@model Lab5Borowy.Models.UserReservationViewModel
+
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+<h1>Reservation Details</h1>
+
+<div>
+    <p><strong>Reservation ID:</strong> @Model.Id</p>
+    <p><strong>Reservation Date:</strong> @Model.ReservationDate.ToShortDateString()</p>
+    <p><strong>Class Name:</strong> @Model.SportClassName</p>
+    <p><strong>Class Date:</strong> @Model.SportClassDate.ToShortDateString()</p>
+    <p><strong>Start Time:</strong> @Model.SportClassStartTime</p>
+    <p><strong>Duration:</strong> @Model.SportClassDuration</p>
+    <p><strong>Capacity:</strong> @Model.SportClassCapacity</p>
+    <p><strong>Reserved:</strong> @Model.SportClassReserved</p>
+</div>
+
+<a asp-action="Welcome" asp-controller="Account" class="btn btn-primary">Back to Reservations</a>
