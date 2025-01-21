@@ -16,8 +16,10 @@ namespace Lab5Borowy.Models
         public event EventHandler? ClasstFull;
 
         public delegate bool ReservationValidationHandler(SportClass sportClass, int userId);
+        
         public ReservationValidationHandler ValidateReservation { get; set; }
-
+        
+        
         public void AddReservation(int userId)
         {
             if (ValidateReservation != null && !ValidateReservation(this, userId))

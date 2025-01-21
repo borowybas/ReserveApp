@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<SportClass>
 
 <h2>Available Classes</h2>
+@if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"])
+{
+    <a href="@Url.Action("AddSportClass", "Admin")" class="btn btn-primary">Add Class</a>
+}
+
 <table class="table">
     <thead>
         <tr>

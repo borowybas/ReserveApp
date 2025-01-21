@@ -2,6 +2,7 @@
 using Lab5Borowy.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lab5Borowy.Controllers
 {
@@ -74,6 +75,7 @@ namespace Lab5Borowy.Controllers
 
             //Session["UserId"] = user.Id; // Przechowujemy identyfikator użytkownika w sesji
             HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("UserRole", user.Role);
             return RedirectToAction("Welcome"); // Przekierowanie na stronę główną
         }
 
@@ -105,14 +107,53 @@ namespace Lab5Borowy.Controllers
             }
 
             // Pobranie danych użytkownika z bazy danych
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            //var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
-            if (user == null)
+            //if (user == null)
+            //{
+            //    return RedirectToAction("Login");
+            //}
+
+            //var reservations = _dbContext.Reservations
+            //    .Where(r => r.UserId == userId)
+            //    .Include(r => r.SportClassId)
+            //    .ToList();
+
+            var reservations = _dbContext.Reservations
+                .Where(r => r.UserId == userId)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.SportClassId,
+                    SportClassName = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Name)
+                        .FirstOrDefault(),
+                    SportClassDate = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Date)
+                        .FirstOrDefault()
+                })
+                .ToList();
+
+            var model = new UserReservationsViewModel
             {
-                return RedirectToAction("Login");
-            }
+                Reservations = reservations.Select(r => new UserReservationViewModel
+                {
+                    Id = r.Id,
+                    SportClassId = r.SportClassId,
+                    SportClassName = r.SportClassName,
+                    SportClassDate = r.SportClassDate
+                }).ToList()
+            };
 
-            return View(user);
+            //var model = new WelcomeViewModel
+            //{
+            //    User = user,
+            //    Reservations = reservations
+            //};
+
+            return View(model);
         }
     }
 }

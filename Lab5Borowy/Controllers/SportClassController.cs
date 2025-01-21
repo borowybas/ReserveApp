@@ -15,6 +15,11 @@ namespace ReserveApp.Controllers
 
         public IActionResult Index()
         {
+            var isAdmin = HttpContext.Session.GetString("UserRole") == "Admin";
+
+            // Przekazanie tej informacji do widoku
+            ViewData["IsAdmin"] = isAdmin;
+
             var classes = _context.SportClasses
                 .Where(c => c.Date >= DateTime.Today)
                 .OrderBy(c => c.Date)

@@ -15,6 +15,7 @@ public class SeedData
             DbContextOptions<Lab5BorowyContext>>() ))
         {
             // Look for any movies.
+            /*
             if (context.Book.Any())
             {
                 return;// DB has been already seeded
@@ -57,7 +58,27 @@ public class SeedData
                     Rating = "C"
                 }
             );
-            context.SaveChanges();
+
+            */
+
+            // Add admin user
+
+            // Look for any movies.
+            if (!context.Users.Any(u => u.Role == "Admin"))
+            {
+                context.Users.Add(new User
+                {
+                    Username = "admin",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin"),
+                    Role = "Admin"
+                });
+                
+                context.SaveChanges();
+            }
+            
+
+
+            //context.SaveChanges();
         }
     }
 }

@@ -14,5 +14,7 @@ namespace Lab5Borowy.Models
         [Required]
         [MaxLength(255)]
         public string PasswordHash { get; set; }
+
+        public string Role { get; set; } = "User";
     }
 }
