@@ -29,7 +29,7 @@
                 <td>@sportClass.Date.ToShortDateString()</td>
                 <td>@sportClass.StartTime</td>
                 <td>@sportClass.Duration</td>
-                <td>@(sportClass.Capacity - sportClass.Reserved)</td>
+                <td>@(sportClass.Capacity - sportClass.Reserved) / @sportClass.Capacity</td>
                 <td>
 
                     @if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"])
