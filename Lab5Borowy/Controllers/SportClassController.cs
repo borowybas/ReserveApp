@@ -88,6 +88,64 @@ namespace ReserveApp.Controllers
             return HttpContext.Session.GetInt32("UserId") ?? 0;
         }
 
+        // GET: SportClass/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sportClass = await _context.SportClasses.FindAsync(id);
+            if (sportClass == null)
+            {
+                return NotFound();
+            }
+            return View(sportClass);
+        }
+
+        // POST: Books/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Date,StartTime,Duration,Capacity,Reserved")] SportClass sportClass)
+        {
+            if (id != sportClass.Id)
+            {
+                return NotFound();
+            }
+
+            ModelState.ClearValidationState("ValidateReservation");
+            ModelState.MarkFieldValid("ValidateReservation");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(sportClass);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SportClassExists(sportClass.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(sportClass);
+        }
+
+        private bool SportClassExists(int id)
+        {
+            return _context.SportClasses.Any(e => e.Id == id);
+        }
+
         // GET: SportClass/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
