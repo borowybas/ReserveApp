@@ -1,6 +1,7 @@
 ﻿using Lab5Borowy.Data;
 using Lab5Borowy.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReserveApp.Controllers
 {
@@ -85,6 +86,39 @@ namespace ReserveApp.Controllers
         public int GetCurrentUserId()
         {
             return HttpContext.Session.GetInt32("UserId") ?? 0;
+        }
+
+        // GET: SportClass/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sportClass = await _context.SportClasses
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (sportClass == null)
+            {
+                return NotFound();
+            }
+
+            return View(sportClass);
+        }
+
+        // POST: SportClass/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var sportClass = await _context.SportClasses.FindAsync(id);
+            if (sportClass != null)
+            {
+                _context.SportClasses.Remove(sportClass);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
