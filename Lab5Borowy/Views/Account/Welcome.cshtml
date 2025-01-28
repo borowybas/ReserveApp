@@ -14,62 +14,29 @@
 }
 else
 {
-<!-- Lista rezerwacji użytkownika (przykład) -->
     <table class="table">
         <thead>
             <tr>
                 <th>Class Name</th>
                 <th>Date</th>
-                <th>Start Time</th>
-                <th>Duration</th>
-                <th>Capacity</th>
-                <th>Reservation Date</th>
-                <th>Action</th>
+                <th>Class ID</th>
             </tr>
         </thead>
         <tbody>
-             @foreach (var reservation in Model.Reservations) 
-             { 
-                 <tr>
-                    @* <td>@reservation.SportClassId.Name</td> *@
-                    @* <td>@reservation.SportClass.Date.ToShortDateString()</td> *@
-                    @* <td>@reservation.SportClass.StartTime</td> *@
-                    @* <td>@reservation.SportClass.Duration</td> *@
-                    @* <td>@reservation.SportClass.Capacity</td> *@
-
-                    @*  <td>@reservation.Date</td>  *@
-                     <td> 
-                         <a href="@Url.Action("Edit", "Reservation", new { id = reservation.Id })">Edit</a> | 
-                         <a href="@Url.Action("Delete", "Reservation", new { id = reservation.Id })">Delete</a> 
-                     </td> 
-                 </tr> 
-             } 
+            @foreach (var reservation in Model.Reservations)
+            {
+                <tr>
+                    <td>@reservation.SportClassName</td>
+                    <td>@reservation.SportClassDate.ToShortDateString()</td>
+                    <td>@reservation.SportClassId</td>
+                    <td>                        
+                        <a href="@Url.Action("Details", "Reservations", new { id = reservation.Id })">Details</a> |
+                        <a href="@Url.Action("Cancel", "Reservations", new { id = reservation.Id })">Cancel</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
+
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Class Name</th>
-            <th>Date</th>
-            <th>Class ID</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var reservation in Model.Reservations)
-        {
-            <tr>
-                <td>@reservation.SportClassName</td>
-                <td>@reservation.SportClassDate.ToShortDateString()</td>
-                <td>@reservation.SportClassId</td>
-                <td>
-                    @* <a href="@Url.Action("Details", "Reservations", Model.Reservations)">Details</a> *@
-                    @* <a asp-action="Details" asp-controller="Reservations" asp-route-id="@reservation.Id" class="btn btn-info">Details</a> *@
-                    <a href="@Url.Action("Details", "Reservations", new { id = reservation.Id })">Details</a> |
-                    <a href="@Url.Action("Cancel", "Reservations", new { id = reservation.Id })">Cancel</a> 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

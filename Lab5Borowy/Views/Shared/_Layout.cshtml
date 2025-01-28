@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Books Database</title>
+    <title>@ViewData["Title"] - ReverseApp</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -15,7 +17,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Books" asp-action="Index">ReserveApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -33,20 +35,35 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Welcome">My reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                            <a class="nav-link text-gray" asp-area="" asp-controller="Books" asp-action="Index" style="color: gray">Books</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
-                        </li>
+                        
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "Admin") {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "User")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                        
                     </ul>
                 </div>
             </div>
@@ -60,7 +77,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - Books Database - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - ReverseApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

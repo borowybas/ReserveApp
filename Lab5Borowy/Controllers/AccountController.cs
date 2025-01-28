@@ -9,10 +9,8 @@ namespace Lab5Borowy.Controllers
     public class AccountController : Controller
     {
        
-
         // Temporary store users in memory
         private static List<User> _users = new List<User>();
-        //private readonly Lab5BorowyContext _dbContext = new Lab5BorowyContext();
         private readonly Lab5BorowyContext _dbContext;
 
         public AccountController(Lab5BorowyContext dbContext)
@@ -73,7 +71,7 @@ namespace Lab5Borowy.Controllers
                 return View();
             }
 
-            //Session["UserId"] = user.Id; // Przechowujemy identyfikator użytkownika w sesji
+            // Przechowujemy identyfikator użytkownika w sesji
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserRole", user.Role);
             return RedirectToAction("Welcome"); // Przekierowanie na stronę główną
@@ -81,9 +79,10 @@ namespace Lab5Borowy.Controllers
 
         public IActionResult Logout()
         {
-            //Session["UserId"] = null; // Wylogowanie
+            // Wylogowanie
             HttpContext.Session.Remove("UserId"); // Usuń UserId z sesji
-            HttpContext.Session.Clear(); // Opcjonalnie: wyczyść całą sesję
+            HttpContext.Session.Remove("UserRole"); // Usuń UserId z sesji
+            HttpContext.Session.Clear(); // Wyczyść całą sesję
             return RedirectToAction("Login");
         }
 
@@ -107,18 +106,7 @@ namespace Lab5Borowy.Controllers
             }
 
             // Pobranie danych użytkownika z bazy danych
-            //var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
-
-            //if (user == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
-
-            //var reservations = _dbContext.Reservations
-            //    .Where(r => r.UserId == userId)
-            //    .Include(r => r.SportClassId)
-            //    .ToList();
-
+            
             var reservations = _dbContext.Reservations
                 .Where(r => r.UserId == userId)
                 .Select(r => new
@@ -169,11 +157,6 @@ namespace Lab5Borowy.Controllers
                 }).ToList()
             };
 
-            //var model = new WelcomeViewModel
-            //{
-            //    User = user,
-            //    Reservations = reservations
-            //};
 
             return View(model);
         }

@@ -20,6 +20,10 @@
     <tbody>
         @foreach (var sportClass in Model)
         {
+            var userReservations = ViewData["UserReservations"] as List<int>;
+            var userReservations2 = @ViewBag.UserReservations;
+            bool isReserved = userReservations != null && userReservations.Contains(sportClass.Id);
+            bool isReserved2 = userReservations2 != null && userReservations2.Contains(sportClass.Id);
             <tr>
                 <td>@sportClass.Name</td>
                 <td>@sportClass.Date.ToShortDateString()</td>
@@ -27,7 +31,10 @@
                 <td>@sportClass.Duration</td>
                 <td>@(sportClass.Capacity - sportClass.Reserved)</td>
                 <td>
-                    @if (sportClass.Reserved < sportClass.Capacity)
+                    @if (isReserved){
+                            <span class="text-success">You are already registered</span>
+                    }
+                    else if (sportClass.Reserved < sportClass.Capacity)
                     {
                         <form asp-action="Reserve" method="post">
                             <input type="hidden" name="id" value="@sportClass.Id" />

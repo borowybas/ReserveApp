@@ -18,6 +18,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Sesja jest wymagana do dzia³ania aplikacji
 });
 
+builder.Services.AddHttpContextAccessor();
+
+
 
 var app = builder.Build();
 

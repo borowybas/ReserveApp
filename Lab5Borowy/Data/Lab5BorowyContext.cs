@@ -27,10 +27,8 @@ namespace Lab5Borowy.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<SportClass>().Ignore(e => e.ClasstFull);
 
-            // Ignorowanie zdarzenia ClasstFull i delegata ValidateReservation
-            //modelBuilder.Entity<SportClass>().Ignore(e => e.ClasstFull);
+            // Ignorowanie  delegata ValidateReservation
             modelBuilder.Entity<SportClass>().Ignore(e => e.ValidateReservation);
 
         }

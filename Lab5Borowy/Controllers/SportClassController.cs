@@ -16,7 +16,7 @@ namespace ReserveApp.Controllers
         public IActionResult Index()
         {
             var isAdmin = HttpContext.Session.GetString("UserRole") == "Admin";
-
+            var userId = HttpContext.Session.GetInt32("UserId");
             // Przekazanie tej informacji do widoku
             ViewData["IsAdmin"] = isAdmin;
 
@@ -24,6 +24,17 @@ namespace ReserveApp.Controllers
                 .Where(c => c.Date >= DateTime.Today)
                 .OrderBy(c => c.Date)
                 .ToList();
+
+            var userReservations = userId != null
+                ? _context.Reservations
+                    .Where(r => r.UserId == userId)
+                    .Select(r => r.SportClassId)
+                    .ToList()
+                : new List<int>();
+
+            ViewData["UserReservations"] = userReservations;
+            ViewBag.UserReservations = userReservations;
+
             return View(classes);
         }
 
