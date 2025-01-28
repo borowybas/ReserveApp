@@ -42,6 +42,13 @@ namespace ReserveApp.Controllers
         [HttpPost]
         public IActionResult Reserve(int id)
         {
+            var userIdx = HttpContext.Session.GetInt32("UserId");
+
+            if (userIdx == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var sportClass = _context.SportClasses.FirstOrDefault(c => c.Id == id);
 
             if (sportClass == null)

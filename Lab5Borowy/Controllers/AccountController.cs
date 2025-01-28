@@ -18,7 +18,71 @@ namespace Lab5Borowy.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        public IActionResult Welcome()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
 
+            if (userId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Pobranie danych użytkownika z bazy danych
+
+            var reservations = _dbContext.Reservations
+                .Where(r => r.UserId == userId)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.SportClassId,
+                    r.ReservationDate,
+                    SportClassName = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Name)
+                        .FirstOrDefault(),
+                    SportClassDate = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Date)
+                        .FirstOrDefault(),
+                    SportClassStartTime = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.StartTime)
+                        .FirstOrDefault(),
+                    SportClassDuration = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Duration)
+                        .FirstOrDefault(),
+                    SportClassCapacity = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Capacity)
+                        .FirstOrDefault(),
+                    SportClassReserved = _dbContext.SportClasses
+                        .Where(sc => sc.Id == r.SportClassId)
+                        .Select(sc => sc.Reserved)
+                        .FirstOrDefault()
+                })
+                .ToList();
+
+            var model = new UserReservationsViewModel
+            {
+                Reservations = reservations.Select(r => new UserReservationViewModel
+                {
+                    Id = r.Id,
+                    SportClassId = r.SportClassId,
+                    ReservationDate = r.ReservationDate,
+                    SportClassName = r.SportClassName,
+                    SportClassDate = r.SportClassDate,
+                    SportClassStartTime = r.SportClassStartTime,
+                    SportClassDuration = r.SportClassDuration,
+                    SportClassCapacity = r.SportClassCapacity,
+                    SportClassReserved = r.SportClassReserved
+                }).ToList()
+            };
+
+
+            return View(model);
+        }
 
         // GET: Account/Register
         [HttpGet]
@@ -95,70 +159,6 @@ namespace Lab5Borowy.Controllers
             base.Dispose(disposing);
         }
 
-        [HttpGet]
-        public IActionResult Welcome()
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-
-            if (userId == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            // Pobranie danych użytkownika z bazy danych
-            
-            var reservations = _dbContext.Reservations
-                .Where(r => r.UserId == userId)
-                .Select(r => new
-                {
-                    r.Id,
-                    r.SportClassId,
-                    r.ReservationDate,
-                    SportClassName = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.Name)
-                        .FirstOrDefault(),
-                    SportClassDate = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.Date)
-                        .FirstOrDefault(),
-                    SportClassStartTime = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.StartTime)
-                        .FirstOrDefault(),
-                    SportClassDuration = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.Duration)
-                        .FirstOrDefault(),
-                    SportClassCapacity = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.Capacity)
-                        .FirstOrDefault(),
-                    SportClassReserved = _dbContext.SportClasses
-                        .Where(sc => sc.Id == r.SportClassId)
-                        .Select(sc => sc.Reserved)
-                        .FirstOrDefault()
-                })
-                .ToList();
-
-            var model = new UserReservationsViewModel
-            {
-                Reservations = reservations.Select(r => new UserReservationViewModel
-                {
-                    Id = r.Id,
-                    SportClassId = r.SportClassId,
-                    ReservationDate = r.ReservationDate,
-                    SportClassName = r.SportClassName,
-                    SportClassDate = r.SportClassDate,
-                    SportClassStartTime = r.SportClassStartTime,
-                    SportClassDuration = r.SportClassDuration,
-                    SportClassCapacity = r.SportClassCapacity,
-                    SportClassReserved = r.SportClassReserved
-                }).ToList()
-            };
-
-
-            return View(model);
-        }
+        
     }
 }
