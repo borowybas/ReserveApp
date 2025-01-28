@@ -31,7 +31,7 @@ else
                     <td>@reservation.SportClassId</td>
                     <td>                        
                         <a href="@Url.Action("Details", "Reservations", new { id = reservation.Id })">Details</a> |
-                        <a href="@Url.Action("Cancel", "Reservations", new { id = reservation.Id })">Cancel</a>
+                        @* <a href="@Url.Action("Cancel", "Reservations", new { id = reservation.Id })">Cancel</a> *@
                     </td>
                 </tr>
             }

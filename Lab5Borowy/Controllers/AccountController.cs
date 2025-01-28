@@ -74,7 +74,7 @@ namespace Lab5Borowy.Controllers
             // Przechowujemy identyfikator użytkownika w sesji
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserRole", user.Role);
-            return RedirectToAction("Welcome"); // Przekierowanie na stronę główną
+            return RedirectToAction("Index", "SportClass"); // Przekierowanie na stronę główną
         }
 
         public IActionResult Logout()

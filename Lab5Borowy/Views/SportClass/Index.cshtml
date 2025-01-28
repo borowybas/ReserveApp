@@ -31,7 +31,12 @@
                 <td>@sportClass.Duration</td>
                 <td>@(sportClass.Capacity - sportClass.Reserved)</td>
                 <td>
-                    @if (isReserved){
+
+                    @if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"])
+                    {
+                        <a href="@Url.Action("reservationList", "Admin", new { id = sportClass.Id })">See reservations</a>
+                    }                    
+                    else if(isReserved){
                             <span class="text-success">You are already registered</span>
                     }
                     else if (sportClass.Reserved < sportClass.Capacity)

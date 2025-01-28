@@ -1,0 +1,22 @@
+﻿@model IEnumerable<dynamic>
+
+<h2>Reservation List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Reservation Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.UserName</td>
+                <td>@reservation.ReservationDate.ToShortDateString()</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

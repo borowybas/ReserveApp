@@ -1,6 +1,7 @@
 ﻿using Lab5Borowy.Data;
 using Lab5Borowy.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Lab5Borowy.Controllers
@@ -44,5 +45,28 @@ namespace Lab5Borowy.Controllers
             return View(sportClass);
         }
 
+        // GET: Admin/ReservationList/5
+        [HttpGet]
+        public IActionResult ReservationList(int id)
+        {
+            var reservations = _context.Reservations
+                .Where(r => r.SportClassId == id)
+                .Join(
+                    _context.Users, // Druga tabela: Users
+                    r => r.UserId, // Klucz z Reservations
+                    u => u.Id, // Klucz z Users
+                    (r, u) => new // Wynik połączenia
+                    {
+                        UserName = u.Username,
+                        r.ReservationDate
+                    }
+
+                )
+                .ToList();
+
+            return View(reservations);
+            
+        }
     }
+
 }

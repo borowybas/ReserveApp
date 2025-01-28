@@ -31,9 +31,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="SportClass" asp-action="Index">Classes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Welcome">My reservations</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") != "Admin") {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Welcome">My reservations</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-gray" asp-area="" asp-controller="Books" asp-action="Index" style="color: gray">Books</a>
                         </li>
