@@ -7,6 +7,7 @@
         <tr>
             <th>User Name</th>
             <th>Reservation Date</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -15,7 +16,13 @@
             <tr>
                 <td>@reservation.UserName</td>
                 <td>@reservation.ReservationDate.ToShortDateString()</td>
-                
+                <td>
+                    <form asp-action="Cancel" asp-controller="Reservations" method="post">
+                        <input type="hidden" name="id" value="@reservation.Id" />
+                        <input type="hidden" name="userId" value="@reservation.UserId" />
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

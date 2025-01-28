@@ -64,5 +64,49 @@ namespace Lab5Borowy.Controllers
 
             return View(reservation);
         }
+
+        [HttpPost]
+        public IActionResult Cancel(int id, int? userId = null)
+        {
+            var reservation = _context.Reservations.FirstOrDefault(r => r.Id == id);
+
+            if (reservation == null)
+            {
+                return NotFound(); // Rezerwacja nie istnieje
+            }
+
+            // Jeśli admin (userId != null), można anulować dowolną rezerwację
+            if (userId == null)
+            {
+                var currentUserId = HttpContext.Session.GetInt32("UserId");
+
+                // Użytkownik może anulować tylko własne rezerwacje
+                if (reservation.UserId != currentUserId)
+                {
+                    return Forbid(); // Brak uprawnień
+                }
+            }
+
+            // Pobierz klasę sportową powiązaną z rezerwacją
+            var sportClass = _context.SportClasses.FirstOrDefault(sc => sc.Id == reservation.SportClassId);
+            if (sportClass != null)
+            {
+                // Zmniejsz liczbę zarezerwowanych miejsc
+                sportClass.Reserved = Math.Max(sportClass.Reserved - 1, 0); // Upewnij się, że Reserved nie będzie ujemne
+            }
+
+            // Usuń rezerwację
+            _context.Reservations.Remove(reservation);
+            _context.SaveChanges();
+
+
+            TempData["Message"] = "Reservation cancelled successfully.";
+
+            // Jeśli admin anulował, wróć do listy rezerwacji; inaczej wróć do rezerwacji użytkownika
+            return userId != null
+                ? RedirectToAction("ReservationList", "Admin", new { id = reservation.SportClassId })
+                : RedirectToAction("Welcome", "Account");
+        }
+
     }
 }

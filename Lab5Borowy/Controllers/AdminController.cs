@@ -58,7 +58,9 @@ namespace Lab5Borowy.Controllers
                     (r, u) => new // Wynik połączenia
                     {
                         UserName = u.Username,
-                        r.ReservationDate
+                        r.ReservationDate,
+                        r.UserId,
+                        r.Id
                     }
 
                 )

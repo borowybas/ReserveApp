@@ -10,7 +10,7 @@ namespace Lab5Borowy.Models
         public TimeSpan StartTime {  get; set; }
         public TimeSpan Duration { get; set; }
         public int Capacity { get; set; }
-        public int Reserved { get; private set; } // number of reserved places
+        public int Reserved { get; set; } // number of reserved places
 
         
         public event EventHandler? ClasstFull;
