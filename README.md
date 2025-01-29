@@ -7,23 +7,26 @@ System posiada różne poziomy dostępu: zwykły użytkownik oraz administrator,
 #### 1.	Rejestracja i logowanie użytkownika
 *	Każdy użytkownik może się zarejestrować, podając nazwę użytkownika i hasło.
 *	Po zalogowaniu użytkownik ma dostęp do swojego panelu, gdzie widzi swoje rezerwacje.
-
+  
+![Rezerwacje użytkownika](./images/scr1.png)
  
 *	Przeglądanie szczegółów rezerwacji przez użytkownika
- 
+
+ ![Szczegóły rezerwacji](./images/scr2.png)
 
 #### 2.	Przeglądanie dostępnych zajęć sportowych
 *	Na stronie głównej użytkownik widzi listę zajęć sportowych wraz z informacjami o dacie, godzinie, czasie trwania oraz dostępnych miejscach.
 *	Jeśli zajęcia nie są pełne, użytkownik może dokonać rezerwacji.
 
-
+![Przeglądanie zajęć](./images/scr3.png)
  
 
 #### 3.	Rezerwacja zajęć
 *	Użytkownik może zarezerwować zajęcia, jeśli są jeszcze dostępne miejsca.
 *	Po zapisaniu się na zajęcia użytkownik nie widzi już przycisku rezerwacji, a zamiast tego pojawia się informacja, że już jest zapisany.
 *	Administrator ma możliwość przeglądania listy rezerwacji dla każdej klasy zajęć.
- 
+
+ ![Funkcja admina](./images/scr4.png)
 
 #### 4.	Anulowanie rezerwacji
 *	Użytkownik może anulować swoją rezerwację, a system automatycznie zwiększy liczbę dostępnych miejsc w bazie danych.
